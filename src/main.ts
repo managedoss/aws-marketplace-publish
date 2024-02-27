@@ -38,6 +38,8 @@ async function run(): Promise<void> {
       ],
     }
 
+    core.info(JSON.stringify(details))
+
     const params: aws.StartChangeSetCommandInput = {
       Catalog: 'AWSMarketplace',
       ChangeSet: [

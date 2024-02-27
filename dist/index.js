@@ -75,6 +75,7 @@ function run() {
                     },
                 ],
             };
+            core.info(JSON.stringify(details));
             const params = {
                 Catalog: 'AWSMarketplace',
                 ChangeSet: [
