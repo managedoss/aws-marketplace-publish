@@ -1,8 +1,9 @@
 name: 'Publish to AWS Marketplace'
 description: 'Publish a new version of a product in AWS Marketplace'
 author: 'Luca Comellini <lucacome>, Eddie Herbert <edwardofclt>'
-icon: arrow-up-circle
-color: red
+branding:
+  icon: arrow-up-circle
+  color: red
 inputs:
   product-id:
     description: 'Product ID'
