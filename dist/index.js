@@ -53,6 +53,8 @@ function run() {
             const releaseNotes = core.getInput('release-notes');
             const description = core.getInput('description');
             const usageInstructions = core.getInput('usage-instructions');
+            const deploymentResources = core.getInput('resources');
+            const compatibleServices = core.getInput('compatible-services');
             const details = {
                 Version: {
                     VersionTitle: version,
@@ -60,12 +62,12 @@ function run() {
                 },
                 DeliveryOptions: [
                     {
-                        DeliveryOptionTitle: 'EKSDelivery',
+                        DeliveryOptionTitle: 'ECS Fargate',
                         Details: {
                             EcrDeliveryOptionDetails: {
-                                DeploymentResources: [],
+                                DeploymentResources: deploymentResources === "" ? [] : JSON.stringify(deploymentResources),
                                 ContainerImages: [registry],
-                                CompatibleServices: ['EKS'],
+                                CompatibleServices: compatibleServices === "" ? ['ECS'] : compatibleServices.split(","),
                                 Description: description,
                                 UsageInstructions: usageInstructions,
                             },
