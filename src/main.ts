@@ -17,6 +17,8 @@ async function run(): Promise<void> {
     const deploymentResources = core.getInput('resources')
     const compatibleServices = core.getInput('compatible-services')
 
+    core.info(deploymentResources)
+
     const details = {
       Version: {
         VersionTitle: version,
@@ -27,7 +29,7 @@ async function run(): Promise<void> {
           DeliveryOptionTitle: 'ECS Fargate',
           Details: {
             EcrDeliveryOptionDetails: {
-              DeploymentResources: deploymentResources === "" ? [] : JSON.parse(deploymentResources),
+              DeploymentResources: deploymentResources === "" ? [] : JSON.parse(deploymentResources.trim()),
               ContainerImages: [registry],
               CompatibleServices: compatibleServices === "" ? ['ECS'] : compatibleServices.split(","),
               Description: description,

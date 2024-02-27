@@ -55,6 +55,7 @@ function run() {
             const usageInstructions = core.getInput('usage-instructions');
             const deploymentResources = core.getInput('resources');
             const compatibleServices = core.getInput('compatible-services');
+            core.info(deploymentResources);
             const details = {
                 Version: {
                     VersionTitle: version,
@@ -65,7 +66,7 @@ function run() {
                         DeliveryOptionTitle: 'ECS Fargate',
                         Details: {
                             EcrDeliveryOptionDetails: {
-                                DeploymentResources: deploymentResources === "" ? [] : JSON.parse(deploymentResources),
+                                DeploymentResources: deploymentResources === "" ? [] : JSON.parse(deploymentResources.trim()),
                                 ContainerImages: [registry],
                                 CompatibleServices: compatibleServices === "" ? ['ECS'] : compatibleServices.split(","),
                                 Description: description,
