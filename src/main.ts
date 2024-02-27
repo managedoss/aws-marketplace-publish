@@ -27,7 +27,7 @@ async function run(): Promise<void> {
           DeliveryOptionTitle: 'ECS Fargate',
           Details: {
             EcrDeliveryOptionDetails: {
-              DeploymentResources: deploymentResources === "" ? [] : JSON.stringify(deploymentResources),
+              DeploymentResources: deploymentResources === "" ? [] : JSON.parse(deploymentResources),
               ContainerImages: [registry],
               CompatibleServices: compatibleServices === "" ? ['ECS'] : compatibleServices.split(","),
               Description: description,
