@@ -1,6 +1,6 @@
-name: 'AWS Marketplace Publish'
+name: 'Publish to AWS Marketplace'
 description: 'Publish a new version of a product in AWS Marketplace'
-author: 'Luca Comellini <lucacome>'
+author: 'Luca Comellini <lucacome>, Eddie Herbert <edwardofclt>'
 inputs:
   product-id:
     description: 'Product ID'
