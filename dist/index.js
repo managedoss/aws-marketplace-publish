@@ -56,27 +56,6 @@ function run() {
             const deploymentResources = core.getInput('resources');
             const compatibleServices = core.getInput('compatible-services');
             core.info(deploymentResources);
-            const details = {
-                Version: {
-                    VersionTitle: version,
-                    ReleaseNotes: releaseNotes,
-                },
-                DeliveryOptions: [
-                    {
-                        DeliveryOptionTitle: 'ECS Fargate',
-                        Details: {
-                            EcrDeliveryOptionDetails: {
-                                DeploymentResources: deploymentResources === "" ? [] : JSON.parse(deploymentResources.trim()),
-                                ContainerImages: [registry],
-                                CompatibleServices: compatibleServices === "" ? ['ECS'] : compatibleServices.split(","),
-                                Description: description,
-                                UsageInstructions: usageInstructions,
-                            },
-                        },
-                    },
-                ],
-            };
-            core.info(JSON.stringify(details));
             const params = {
                 Catalog: 'AWSMarketplace',
                 ChangeSet: [
@@ -97,18 +76,19 @@ function run() {
                                     Details: {
                                         EcrDeliveryOptionDetails: {
                                             ContainerImages: [registry],
-                                            DeploymentResources: deploymentResources === "" ? [] : JSON.parse(deploymentResources.trim()),
-                                            CompatibleServices: compatibleServices === "" ? ['ECS'] : compatibleServices.split(","),
+                                            DeploymentResources: !deploymentResources ? [] : JSON.parse(deploymentResources.trim()),
+                                            CompatibleServices: !compatibleServices ? ['ECS'] : compatibleServices.split(','),
                                             Description: description,
                                             UsageInstructions: usageInstructions,
                                         },
                                     },
                                 },
                             ],
-                        }
+                        },
                     },
                 ],
             };
+            core.info(JSON.stringify(params));
             const result = yield client.send(new aws.StartChangeSetCommand(params));
             core.info(JSON.stringify(result, null, 2));
             if (((_a = result.$metadata.httpStatusCode) === null || _a === void 0 ? void 0 : _a.toString()) !== '200') {

@@ -40,14 +40,14 @@ async function run(): Promise<void> {
                   EcrDeliveryOptionDetails: {
                     ContainerImages: [registry],
                     DeploymentResources: !deploymentResources ? [] : JSON.parse(deploymentResources.trim()),
-                    CompatibleServices: !compatibleServices ? ['ECS'] : compatibleServices.split(","),
+                    CompatibleServices: !compatibleServices ? ['ECS'] : compatibleServices.split(','),
                     Description: description,
                     UsageInstructions: usageInstructions,
                   },
                 },
               },
             ],
-          }
+          },
         },
       ],
     }
