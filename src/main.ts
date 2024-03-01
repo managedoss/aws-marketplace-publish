@@ -19,29 +19,6 @@ async function run(): Promise<void> {
 
     core.info(deploymentResources)
 
-    const details = {
-      Version: {
-        VersionTitle: version,
-        ReleaseNotes: releaseNotes,
-      },
-      DeliveryOptions: [
-        {
-          DeliveryOptionTitle: 'ECS Fargate',
-          Details: {
-            EcrDeliveryOptionDetails: {
-              DeploymentResources: deploymentResources === "" ? [] : JSON.parse(deploymentResources.trim()),
-              ContainerImages: [registry],
-              CompatibleServices: compatibleServices === "" ? ['ECS'] : compatibleServices.split(","),
-              Description: description,
-              UsageInstructions: usageInstructions,
-            },
-          },
-        },
-      ],
-    }
-
-    core.info(JSON.stringify(details))
-
     const params: aws.StartChangeSetCommandInput = {
       Catalog: 'AWSMarketplace',
       ChangeSet: [
@@ -62,8 +39,8 @@ async function run(): Promise<void> {
                 Details: {
                   EcrDeliveryOptionDetails: {
                     ContainerImages: [registry],
-                    DeploymentResources: deploymentResources === "" ? [] : JSON.parse(deploymentResources.trim()),
-                    CompatibleServices: compatibleServices === "" ? ['ECS'] : compatibleServices.split(","),
+                    DeploymentResources: !deploymentResources ? [] : JSON.parse(deploymentResources.trim()),
+                    CompatibleServices: !compatibleServices ? ['ECS'] : compatibleServices.split(","),
                     Description: description,
                     UsageInstructions: usageInstructions,
                   },
@@ -75,6 +52,7 @@ async function run(): Promise<void> {
       ],
     }
 
+    core.info(JSON.stringify(params))
     const result = await client.send(new aws.StartChangeSetCommand(params))
     core.info(JSON.stringify(result, null, 2))
 
