@@ -86,7 +86,26 @@ function run() {
                             Identifier: productID,
                             Type: 'ContainerProduct@1.0',
                         },
-                        Details: JSON.stringify(details),
+                        DetailsDocument: {
+                            Version: {
+                                VersionTitle: version,
+                                ReleaseNotes: releaseNotes,
+                            },
+                            DeliveryOptions: [
+                                {
+                                    DeliveryOptionTitle: 'ECS Fargate',
+                                    Details: {
+                                        EcrDeliveryOptionDetails: {
+                                            ContainerImages: [registry],
+                                            DeploymentResources: deploymentResources === "" ? [] : JSON.parse(deploymentResources.trim()),
+                                            CompatibleServices: compatibleServices === "" ? ['ECS'] : compatibleServices.split(","),
+                                            Description: description,
+                                            UsageInstructions: usageInstructions,
+                                        },
+                                    },
+                                },
+                            ],
+                        }
                     },
                 ],
             };
