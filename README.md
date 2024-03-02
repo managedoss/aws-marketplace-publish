@@ -29,18 +29,25 @@ jobs:
           aws-region: us-east-1
 
       - name: Publish to AWS Marketplace
-        uses: nginxinc/aws-marketplace-publish@v0.1.0
+        uses: managedoss/aws-marketplace-publish@v1.0.3
         with:
-          product-id: ${{ secrets.AWS_MARKETPLACE_PRODUCT_ID }}
-          version: ${{ replace(github.ref, 'refs/tags/', '') }}
-          registry: 709825985650.dkr.ecr.us-east-1.amazonaws.com/your-repo:tag
-          release-notes: |
-            - New feature
-            - Bug fixes
-          description: |
-            This is a description of your product.
-          usage-instructions: |
-            This is how you use your product.
+          product-id: ${{ env.AWS_PRODUCT_ID }}
+          version: ${{ env.version }}
+          registry: 709825985650.dkr.ecr.us-east-1.amazonaws.com/organization/repo:${{ env.version }}
+          release-notes: ${{ github.event.release.body }}
+          resources: |-
+            [
+              {
+                "Name": "Terraform Module",
+                "Url": "https://github.com/managedoss/terraform-aws-superset"
+              },
+              {
+                "Name": "Cloudformation Template",
+                "Url": "https://us-east-1.console.aws.amazon.com/cloudformation/home#/stacks/quickcreate?templateUrl=https://managedoss-shared-web-assets.s3.amazonaws.com/cloudformation.yml"
+              }
+            ]
+          description: This is description of your product.
+          usage-instructions: This is how you use your product.
 ```
 
 ## Inputs
@@ -50,6 +57,7 @@ jobs:
 | `product-id` | The ID of the product to publish. | Yes |
 | `version` | The version of the product to publish. | Yes |
 | `registry` | The Docker image to publish. | Yes |
-| `release-notes` | Release notes for the new version. | Yes |
+| `release-notes` | Release notes for the new version. Must not be an empty. | Yes |
 | `description` | Description of the product. | Yes |
+| `resources` | A stringified JSON object with deployment resources for your product. | No |
 | `usage-instructions` | Usage instructions for the product. | Yes |
