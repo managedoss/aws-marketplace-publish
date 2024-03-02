@@ -51,6 +51,9 @@ function run() {
             const version = core.getInput('version', { required: true });
             const registry = core.getInput('registry', { required: true });
             const releaseNotes = core.getInput('release-notes');
+            if (!releaseNotes) {
+                core.setFailed("releaseNotes cannot be empty or undefined");
+            }
             const description = core.getInput('description');
             const usageInstructions = core.getInput('usage-instructions');
             const deploymentResources = core.getInput('resources');
